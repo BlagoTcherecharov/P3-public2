@@ -91,7 +91,7 @@ resource "azurerm_storage_account" "my_storage_account" {
 
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
-  name                  = "Test1"
+  name                  = "myVM"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.my_terraform_nic.id]
@@ -121,4 +121,16 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
   boot_diagnostics {
     storage_account_uri = azurerm_storage_account.my_storage_account.primary_blob_endpoint
   }
+}
+
+resource "azurerm_dns_a_record" "example" {
+  name                = "test2"
+  zone_name           = "blago.ef3.in"
+  resource_group_name = "Docker"
+  ttl                 = 100
+  records             = [azurerm_public_ip.my_terraform_public_ip.ip_address]
+}
+
+output "dns_zone_id" {
+  value = azurerm_dns_a_record.example.id
 }
