@@ -127,7 +127,7 @@ resource "azurerm_dns_a_record" "example" {
   name                = "test2"
   zone_name           = "blago.ef3.in"
   resource_group_name = "Docker"
-  ttl                 = 100
+  ttl                 = 3600
   records             = [azurerm_public_ip.my_terraform_public_ip.ip_address]
 }
 
